@@ -1,0 +1,166 @@
+// Movie Night — schema
+// Postgres (a free Neon database — see README). DATABASE_URL comes from
+// your .env locally, and from Vercel's environment variables in prod.
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// A registered person. Real accounts: email + a hashed password.
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime  @default(now())
+
+  sessions    Session[]
+  memberships Member[]
+  ownedGroups Group[]   @relation("GroupOwner")
+}
+
+// A logged-in session, looked up by a hash of the token stored in the
+// user's cookie. Deleting the row (or letting it expire) logs them out —
+// unlike a signed JWT, this is instantly revocable.
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// A group. Invite-only: whoever has the group's link can create an
+// account (or log in) and join. The creator is the owner.
+model Group {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  tagline      String?
+  ownerId      String
+  owner        User          @relation("GroupOwner", fields: [ownerId], references: [id])
+  createdAt    DateTime      @default(now())
+  members      Member[]
+  movies       Movie[]
+  customFields CustomField[]
+}
+
+enum MemberRole {
+  OWNER
+  MEMBER
+}
+
+// One user's membership in one group — this is what actually rates
+// movies, so a user who's in three groups has three Member rows.
+model Member {
+  id       String     @id @default(cuid())
+  groupId  String
+  group    Group      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     MemberRole @default(MEMBER)
+  emoji    String     @default("🎬")
+  color    String     @default("#6366f1")
+  joinedAt DateTime   @default(now())
+
+  ratings      Rating[]
+  pickedMovies Movie[] @relation("PickedBy")
+
+  @@unique([groupId, userId])
+}
+
+enum FieldType {
+  BOOLEAN
+  TEXT
+  NUMBER
+  SELECT
+}
+
+// Which "row" a custom field attaches to: once per movie night (MOVIE),
+// or once per person per movie night (RATING).
+enum FieldScope {
+  MOVIE
+  RATING
+}
+
+// Group-defined extra stats — the "Bechdel test", "Corv Cameo",
+// "muted but didn't realise" style columns from Jamie's spreadsheet.
+// Fully configurable per group, added any time from Settings.
+model CustomField {
+  id        String      @id @default(cuid())
+  groupId   String
+  group     Group       @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  label     String
+  emoji     String      @default("✨")
+  type      FieldType
+  scope     FieldScope
+  options   String? // comma-separated, only used when type = SELECT
+  order     Int         @default(0)
+  archived  Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  values    CustomFieldValue[]
+}
+
+// One movie night.
+model Movie {
+  id          String   @id @default(cuid())
+  groupId     String
+  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  title       String
+  watchedOn   DateTime
+  runtimeMin  Int?
+  posterUrl   String?
+  imdbRating  Float?
+  imdbId      String?
+  pickedById  String?
+  pickedBy    Member?  @relation("PickedBy", fields: [pickedById], references: [id])
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  ratings     Rating[]
+  fieldValues CustomFieldValue[]
+}
+
+// One person's rating of one movie night.
+model Rating {
+  id           String   @id @default(cuid())
+  movieId      String
+  movie        Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  memberId     String
+  member       Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  score        Float
+  rewatch      Boolean?
+  favoriteChar String?
+  leastFavChar String?
+  fellAsleep   Boolean?
+  quote        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  fieldValues CustomFieldValue[]
+
+  @@unique([movieId, memberId])
+}
+
+// The actual value for one custom field, attached to either a movie
+// (scope = MOVIE) or a single rating (scope = RATING). Stored as text
+// and parsed according to the field's type.
+model CustomFieldValue {
+  id       String       @id @default(cuid())
+  fieldId  String
+  field    CustomField  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  movieId  String?
+  movie    Movie?       @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  ratingId String?
+  rating   Rating?      @relation(fields: [ratingId], references: [id], onDelete: Cascade)
+  value    String
+
+  @@unique([fieldId, movieId])
+  @@unique([fieldId, ratingId])
+}

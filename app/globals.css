@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fdf8f0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26,21,35,0.08) 1px, transparent 0);
+  background-size: 22px 22px;
+  color: #1a1523;
+}
+
+@layer components {
+  .card {
+    @apply bg-white border-[3px] border-ink rounded-3xl shadow-pop;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border-[3px] border-ink rounded-2xl px-5 py-2.5
+      font-bold shadow-pop-sm transition-transform active:translate-y-[2px] active:shadow-none
+      disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-yellow-300 hover:bg-yellow-200 text-ink;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white hover:bg-cream text-ink;
+  }
+
+  .btn-danger {
+    @apply btn bg-rose-400 hover:bg-rose-300 text-white;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm rounded-xl;
+  }
+
+  .input {
+    @apply w-full border-[3px] border-ink rounded-2xl px-4 py-2.5 bg-white
+      focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-ink/40;
+  }
+
+  .label {
+    @apply block text-sm font-bold uppercase tracking-wide text-ink/70 mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 border-2 border-ink rounded-full px-2.5 py-0.5 text-xs font-bold bg-white;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border-2 border-ink px-3 py-1 text-sm font-semibold bg-white;
+  }
+}
+
+::selection {
+  background: #fde047;
+}
