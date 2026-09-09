@@ -49,7 +49,7 @@ export default async function GroupLayout({
 
   return (
     <div className="min-h-screen">
-      <header className="border-b-[3px] border-ink bg-white">
+      <header className="border-b-[3px] border-ink bg-surface">
         <div className="max-w-4xl mx-auto px-4 py-4 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>

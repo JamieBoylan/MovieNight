@@ -85,11 +85,14 @@ password for all of them: movienight1
   (harshest critic, easiest to please, sleepiest, best/bravest picker,
   most up for a rewatch), and calls out the most divisive pick and the
   highest/lowest rated movies.
-- **Optional IMDb auto-fill** — set `OMDB_API_KEY` in `.env` (a free
-  key from [omdbapi.com](https://www.omdbapi.com/apikey.aspx)) and
-  logging a movie night will automatically pull its IMDb rating,
-  poster, and runtime if you leave those fields blank. Without a key,
-  everything still works — you just fill those fields in yourself.
+- **Live IMDb search** — set `OMDB_API_KEY` in `.env` (a free key from
+  [omdbapi.com](https://www.omdbapi.com/apikey.aspx)) and the "Log a
+  movie night" title field becomes a search-as-you-type box: matches
+  show up with poster thumbnails as you type, and picking one
+  auto-fills the title, year, runtime, IMDb rating, and poster art. If
+  you skip the picker and just type a title by hand, it still tries a
+  one-shot lookup on submit. Without a key, everything still works —
+  you just fill those fields in yourself.
 
 ## Project structure
 

@@ -26,7 +26,7 @@ export default function RatingSummaryCard({ rating }: { rating: RatingSummary })
           <span className="font-extrabold">{rating.member.name}</span>
         </div>
         <div
-          className="rounded-full border-2 border-ink w-10 h-10 flex items-center justify-center font-extrabold text-sm"
+          className="rounded-full border-2 border-ink w-10 h-10 flex items-center justify-center font-extrabold text-sm text-[#14110a]"
           style={{ backgroundColor: scoreColor(rating.score) }}
         >
           {fmtScore(rating.score)}

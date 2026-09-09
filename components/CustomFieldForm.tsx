@@ -66,7 +66,7 @@ export default function CustomFieldForm({ groupId, groupSlug }: { groupId: strin
         </div>
       )}
 
-      {error && <p className="text-rose-600 font-semibold text-sm">{error}</p>}
+      {error && <p className="alert-error">{error}</p>}
 
       <button type="submit" className="btn-secondary" disabled={isPending}>
         {isPending ? "Adding…" : "+ Add field"}

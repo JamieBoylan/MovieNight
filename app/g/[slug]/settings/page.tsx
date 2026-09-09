@@ -146,7 +146,7 @@ export default async function SettingsPage({ params }: { params: { slug: string 
 
       {isOwner && (
         <section className="space-y-3">
-          <h2 className="font-extrabold text-xl text-rose-600">Danger zone</h2>
+          <h2 className="font-extrabold text-xl text-rose-400">Danger zone</h2>
           <form
             action={deleteGroupAction}
             className="card p-4 border-rose-400 flex items-center justify-between gap-3"

@@ -49,9 +49,19 @@ export default async function MovieDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="card p-6">
-        <div className="flex flex-col sm:flex-row gap-5">
-          <div className="w-28 h-40 shrink-0 rounded-xl border-[3px] border-ink overflow-hidden bg-cream flex items-center justify-center text-5xl mx-auto sm:mx-0">
+      <div className="card relative p-6 overflow-hidden">
+        {movie.posterUrl && (
+          <div
+            className="absolute inset-0 opacity-25 blur-2xl scale-110 pointer-events-none"
+            style={{
+              backgroundImage: `url(${movie.posterUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        )}
+        <div className="relative flex flex-col sm:flex-row gap-5">
+          <div className="w-28 h-40 shrink-0 rounded-xl border-[3px] border-ink overflow-hidden bg-cream flex items-center justify-center text-5xl mx-auto sm:mx-0 shadow-glow">
             {movie.posterUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={movie.posterUrl} alt={movie.title} className="w-full h-full object-cover" />
@@ -71,7 +81,7 @@ export default async function MovieDetailPage({
             <div className="flex flex-wrap items-center gap-4 mt-4 justify-center sm:justify-start">
               <div className="text-center">
                 <div
-                  className="w-16 h-16 rounded-full border-[3px] border-ink flex items-center justify-center text-2xl font-extrabold"
+                  className="w-16 h-16 rounded-full border-[3px] border-ink flex items-center justify-center text-2xl font-extrabold text-[#14110a]"
                   style={{ backgroundColor: scoreColor(avgScore) }}
                 >
                   {fmtScore(avgScore)}
@@ -81,7 +91,7 @@ export default async function MovieDetailPage({
 
               {movie.imdbRating !== null && (
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-full border-[3px] border-ink flex items-center justify-center text-2xl font-extrabold bg-white">
+                  <div className="w-16 h-16 rounded-full border-[3px] border-marquee/70 flex items-center justify-center text-2xl font-extrabold bg-cream text-marquee">
                     {movie.imdbRating}
                   </div>
                   <p className="text-xs font-bold uppercase tracking-wide text-ink/50 mt-1">IMDb</p>
@@ -90,7 +100,7 @@ export default async function MovieDetailPage({
 
               {diffFromImdb !== null && (
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-full border-[3px] border-ink flex items-center justify-center text-2xl font-extrabold bg-white">
+                  <div className="w-16 h-16 rounded-full border-[3px] border-ink flex items-center justify-center text-2xl font-extrabold bg-cream">
                     {fmtSigned(diffFromImdb)}
                   </div>
                   <p className="text-xs font-bold uppercase tracking-wide text-ink/50 mt-1">vs IMDb</p>

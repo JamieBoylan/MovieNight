@@ -13,7 +13,12 @@ export default async function HomePage() {
       <main className="min-h-screen px-4 py-10 md:py-16">
         <div className="max-w-xl mx-auto text-center">
           <div className="text-5xl mb-3">🎬🍿✨</div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Movie Night</h1>
+          <h1
+            className="text-4xl md:text-5xl font-extrabold tracking-tight"
+            style={{ textShadow: "0 0 30px rgba(245,197,24,0.35)" }}
+          >
+            Movie Night
+          </h1>
           <p className="mt-3 text-ink/70 text-lg">
             Letterboxd, but it's just your group chat. Rate movies together, track who fell
             asleep, and settle who has the best taste — for good.

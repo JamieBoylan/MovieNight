@@ -135,7 +135,7 @@ export async function logMovieNight(groupId: string, groupSlug: string, formData
   const imdbRaw = String(formData.get("imdbRating") || "").trim();
   let imdbRating: number | null = imdbRaw ? parseFloat(imdbRaw) : null;
   let posterUrl: string | null = String(formData.get("posterUrl") || "").trim() || null;
-  let imdbId: string | null = null;
+  let imdbId: string | null = String(formData.get("imdbId") || "").trim() || null;
 
   // pickedById must actually be a member of this group.
   let pickedById: string | null = null;
@@ -146,7 +146,9 @@ export async function logMovieNight(groupId: string, groupSlug: string, formData
     pickedById = pickedMember ? pickedMember.id : null;
   }
 
-  if (!imdbRating || !posterUrl) {
+  // Only fall back to a blind title lookup if the person didn't already
+  // pick an exact match from the search dropdown (imdbId set means they did).
+  if (!imdbId && (!imdbRating || !posterUrl)) {
     const year = String(formData.get("year") || "").trim() || undefined;
     const result = await lookupMovie(title, year);
     if (result) {

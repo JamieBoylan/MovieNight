@@ -54,11 +54,7 @@ export default function CreateGroupForm() {
         up (or log in) and join themselves.
       </p>
 
-      {error && (
-        <p className="text-rose-600 font-semibold text-sm border-2 border-rose-400 bg-rose-50 rounded-xl px-3 py-2">
-          {error}
-        </p>
-      )}
+      {error && <p className="alert-error">{error}</p>}
 
       <button type="submit" className="btn-primary w-full text-lg" disabled={isPending}>
         {isPending ? "Setting up your group…" : "🍿 Create group"}

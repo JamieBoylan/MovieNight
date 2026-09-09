@@ -7,16 +7,18 @@ html {
 }
 
 body {
-  background-color: #fdf8f0;
+  background-color: #0a0813;
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(26,21,35,0.08) 1px, transparent 0);
-  background-size: 22px 22px;
-  color: #1a1523;
+    radial-gradient(circle at 1px 1px, rgba(243,238,226,0.09) 1px, transparent 0),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,24,0.08), transparent);
+  background-size: 22px 22px, 100% 100%;
+  background-attachment: fixed;
+  color: #f3eee2;
 }
 
 @layer components {
   .card {
-    @apply bg-white border-[3px] border-ink rounded-3xl shadow-pop;
+    @apply bg-surface border-[3px] border-ink rounded-3xl shadow-pop;
   }
 
   .btn {
@@ -26,15 +28,15 @@ body {
   }
 
   .btn-primary {
-    @apply btn bg-yellow-300 hover:bg-yellow-200 text-ink;
+    @apply btn bg-marquee hover:bg-yellow-300 text-[#181104];
   }
 
   .btn-secondary {
-    @apply btn bg-white hover:bg-cream text-ink;
+    @apply btn bg-surface hover:bg-cream text-ink;
   }
 
   .btn-danger {
-    @apply btn bg-rose-400 hover:bg-rose-300 text-white;
+    @apply btn bg-rose-500 hover:bg-rose-400 text-white;
   }
 
   .btn-sm {
@@ -42,23 +44,32 @@ body {
   }
 
   .input {
-    @apply w-full border-[3px] border-ink rounded-2xl px-4 py-2.5 bg-white
-      focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-ink/40;
+    @apply w-full border-[3px] border-ink/70 rounded-2xl px-4 py-2.5 bg-surface text-ink
+      focus:outline-none focus:ring-4 focus:ring-marquee/30 focus:border-ink placeholder:text-ink/40;
   }
 
   .label {
-    @apply block text-sm font-bold uppercase tracking-wide text-ink/70 mb-1.5;
+    @apply block text-sm font-bold uppercase tracking-wide text-ink/60 mb-1.5;
   }
 
   .badge {
-    @apply inline-flex items-center gap-1 border-2 border-ink rounded-full px-2.5 py-0.5 text-xs font-bold bg-white;
+    @apply inline-flex items-center gap-1 border-2 border-ink/70 rounded-full px-2.5 py-0.5 text-xs font-bold bg-surface;
   }
 
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border-2 border-ink px-3 py-1 text-sm font-semibold bg-white;
+    @apply inline-flex items-center gap-1.5 rounded-full border-2 border-ink/70 px-3 py-1 text-sm font-semibold bg-surface;
+  }
+
+  .alert-error {
+    @apply text-rose-300 font-semibold text-sm border-2 border-rose-400/70 bg-rose-500/10 rounded-xl px-3 py-2;
+  }
+
+  .alert-success {
+    @apply text-emerald-300 font-semibold text-sm border-2 border-emerald-400/70 bg-emerald-500/10 rounded-xl px-3 py-2;
   }
 }
 
 ::selection {
-  background: #fde047;
+  background: #f5c518;
+  color: #181104;
 }

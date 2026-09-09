@@ -138,16 +138,8 @@ export default function RatingForm({
         </div>
       )}
 
-      {error && (
-        <p className="text-rose-600 font-semibold text-sm border-2 border-rose-400 bg-rose-50 rounded-xl px-3 py-2">
-          {error}
-        </p>
-      )}
-      {success && !isPending && (
-        <p className="text-emerald-700 font-semibold text-sm border-2 border-emerald-400 bg-emerald-50 rounded-xl px-3 py-2">
-          Saved! 🎉
-        </p>
-      )}
+      {error && <p className="alert-error">{error}</p>}
+      {success && !isPending && <p className="alert-success">Saved! 🎉</p>}
 
       <button type="submit" className="btn-primary w-full" disabled={isPending}>
         {isPending ? "Saving…" : existing ? "Update rating" : "Submit rating"}
